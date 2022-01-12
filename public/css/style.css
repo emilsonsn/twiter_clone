@@ -67,3 +67,23 @@ h2 {
     margin: 48px auto;
     position: relative;
 }
+
+.erro{
+    margin: 0;
+    padding: 5px 0;
+    font-size: 1.2rem;
+    width:100%;
+    text-align: center;
+    background: red;
+    color:white;
+}
+
+.sucesso{
+    margin: 0;
+    padding: 5px 0;
+    font-size: 1.2rem;
+    width:100%;
+    text-align: center;
+    background: green;
+    color:white;
+}
