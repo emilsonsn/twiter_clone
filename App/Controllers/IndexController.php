@@ -9,7 +9,6 @@ use MF\Model\Container;
 class IndexController extends Action{
 
 	public function index(){
-
 		$this->render('index');
 	}
 
@@ -21,7 +20,7 @@ class IndexController extends Action{
 		$usuario = Container::getModel('Usuario');
 		$usuario->__set('nome', $_POST['nome']);
 		$usuario->__set('email', $_POST['email']);
-		$usuario->__set('senha', $_POST['senha']);
+		$usuario->__set('senha', md5($_POST['senha']));
 		$cadastroSucesso = $usuario->salvar();
 		if($cadastroSucesso['sucess'] == 'true'){
 			$this->render('cadastro');

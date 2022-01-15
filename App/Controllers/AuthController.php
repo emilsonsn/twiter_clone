@@ -8,20 +8,26 @@ use MF\Model\Container;
 
 class AuthController extends Action{
     public function autenticar(){
-        $credenciais = $_POST;
         $usuario = Container::getModel('usuario');
         $usuario->__set('email',$_POST['email']);
-        $usuario->__set('senha',$_POST['senha']);
+        $usuario->__set('senha',md5($_POST['senha']));
         $usuario = $usuario->autenticar();
 
-        if($usuario->__get('id') != '' && $usuario->__get('id') != ''){
+        if($usuario->__get('id') != '' && $usuario->__get('nome') != ''){
             session_start();
             $_SESSION['autenticado'] = true;
+            $_SESSION['id'] = $usuario->__get('id');
+            $_SESSION['nome'] =$usuario-> __get('nome');
+            header('location: /timeline');
         }
         else{ 
-            echo '<h1 class="erro">Erro na autenticação</h1>';
-            $this->render('home');
+            header("location: /?login=erro");
         }
+    }
 
+    public function sair(){
+        session_start();
+        session_destroy();
+        header("location: /");
     }
 }

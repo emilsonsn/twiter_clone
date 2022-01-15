@@ -3,7 +3,7 @@
 namespace MF\Init;
 
 abstract class Bootstrap {
-	private $routes;
+	protected $routes;
 
 	abstract protected function initRoutes(); 
 

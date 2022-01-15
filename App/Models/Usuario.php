@@ -45,15 +45,14 @@ class Usuario extends Model
 
     public function validaCadastro(){
         $valido = true;
-        $message = '<h1 class="sucesso">Cadastro realizado com sucesso!</h1>';
-
+        $message = null;
         foreach($this->recuperaEmail() as $indice => $value) {
             if(is_int($indice) && $value[0] == $this->__get('email')){
                 $valido = false;
                 $message = '<h1 class="erro">Esse email já está sendo utilizado por outro usuário.</h1>';
             } 
         }
-        if (strlen($this->__get('nome')) < 3 || strlen($this->__get('email')) < 3 || strlen($this->__get('senha'))){
+        if (strlen($this->__get('nome')) < 3 || strlen($this->__get('email')) < 3 || strlen($this->__get('senha')) < 3){
             $valido = false;
             $message = '<h1 class="erro">Preenchar todos os campos para realizar a ação.</h1>';
         }
@@ -79,3 +78,5 @@ class Usuario extends Model
         return $this;
     }
 }
+
+
