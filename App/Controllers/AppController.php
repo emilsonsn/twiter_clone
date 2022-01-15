@@ -35,7 +35,15 @@ class AppController extends Action{
 
     public function quemSeguir(){
         $this->validarAutenticacao();
+        $find = isset($_GET['find']) ? $_GET['find'] : '';
+        if($find != ''){
+            $usuario = Container::getModel('usuario');
+            $usuario->__set('nome',$_GET['find']);
+            $pesquisa = $usuario->getAll();
+            $this->view->pesquisa = $pesquisa;
+        }   
         $this->render('quemSeguir');
+
     }
     
 }
