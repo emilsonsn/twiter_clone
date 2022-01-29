@@ -8,22 +8,22 @@ procurar usuários e segur/deixar de seguir. Tudo isso usando um banco de dados 
 
 Estrutura do projeto
 
-App
--- Controllers
--- Models
--- Views
----- App
----- Index 
-Public
----- css
----- img
-sql
-vendor
---- Composer
---- MF
------ Controller
------ Model
------ Init
+App <br>
+-- Controllers<br>
+-- Models<br>
+-- Views<br>
+---- App<br>
+---- Index <br>
+Public<br>
+---- css<br>
+---- img<br>
+sql<br>
+vendor<br>
+--- Composer<br>
+--- MF<br>
+----- Controller<br>
+----- Model<br>
+----- Init<br>
 
 
 <hr>
