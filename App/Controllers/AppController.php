@@ -16,6 +16,11 @@ class AppController extends Action{
 
     public function timeline(){
         $this->validarAutenticacao();
+
+        $usuarios = Container::getModel('usuario');
+        $usuarios->__set('id',$_SESSION['id']);
+        $this->view->usuarios = $usuarios;
+
         $tweet = Container::getModel('tweet');
         $tweet->__set('id_usuario',$_SESSION['id']);
         $tweet = $tweet->getAll();
@@ -36,14 +41,38 @@ class AppController extends Action{
     public function quemSeguir(){
         $this->validarAutenticacao();
         $find = isset($_GET['find']) ? $_GET['find'] : '';
+        $usuarios = Container::getModel('usuario');
+        $usuarios->__set('id',$_SESSION['id']);
+        $this->view->usuario = $usuarios;
+        $this->view->find = $find;
         if($find != ''){
-            $usuario = Container::getModel('usuario');
-            $usuario->__set('nome',$_GET['find']);
-            $pesquisa = $usuario->getAll();
-            $this->view->pesquisa = $pesquisa;
+            $usuarios->__set('nome',$_GET['find']);
+            $usuarios = $usuarios->getAll();
+            $this->view->usuarios = $usuarios;
         }   
-        $this->render('quemSeguir');
+            $this->render('quem_seguir');
+    }
 
+    public function acao(){
+        $this->validarAutenticacao();
+        if(isset($_GET['action']) && $_GET['action'] != '' && isset($_GET['id']) && $_GET['id'] != ''){
+            $usuario = Container::getModel('usuario');
+            $usuario->__set('id',$_SESSION['id']);
+            $usuario->get = $_GET['find'];
+            if($_GET['action'] == 'follow'){
+                $usuario->seguirUsuario();
+            }else if($_GET['action'] == 'unfollow'){
+                $usuario->deixarDeSeguirUsuario();
+            }
+        }
+    }
+
+    public function deletarTweet(){
+        $get = $_GET;
+        $tweet = Container::getModel('tweet');
+        $tweet->__set('id',$_GET['id']);
+        $tweet->deletarTweet();
+        header('location: /timeline');
     }
     
 }

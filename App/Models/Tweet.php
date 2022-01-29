@@ -31,17 +31,28 @@ class Tweet extends Model{
     public function getAll(){   
         $query = "
         Select
-            id,id_usuario,tweet,DATE_FORMAT(data_criacao, '%d/%m/%y %H:%i') as data_criacao
+            t.id,t.id_usuario,u.nome,t.tweet,DATE_FORMAT(t.data_criacao, '%d/%m/%y %H:%i') as data_criacao
         From
-            tweets
+            tweets as t
+            left join tb_usuarios as u on (t.id_usuario = u.id)
         Where
-            id_usuario= :id_usuario
-        Order by id desc;";
+            t.id_usuario= :id_usuario
+            or t.id_usuario in (select id_usuario_seguindo from tb_usuarios_seguidores where id_usuario = :id_usuario)
+        Order by data_criacao desc;";
 
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(":id_usuario",$this->__get('id_usuario'));
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function deletarTweet(){
+        $query = "
+            delete from tweets where id = :id;
+        ";
+        $stmt =$this->db->prepare($query);
+        $stmt->bindValue(":id", $this->__get('id'));
+        $stmt->execute();
     }
 
 

@@ -28,7 +28,7 @@
 					
 					<div class="row mt-2 mb-2">
 						<div class="col mb-2">
-							<span class="perfilPainelNome">Nome do Usuário</span>
+							<span class="perfilPainelNome"><?php echo $this->view->usuarios->getUserInfor()['nome']?></span>
 						</div>
 					</div>
 
@@ -36,17 +36,17 @@
 
 						<div class="col">
 							<span class="perfilPainelItem">Tweets</span><br />
-							<span class="perfilPainelItemValor">0</span>
+							<span class="perfilPainelItemValor"><?php echo $this->view->usuarios->getTotalTweets()['total_tweets']?></span>
 						</div>
 
 						<div class="col">
 							<span class="perfilPainelItem">Seguindo</span><br />
-							<span class="perfilPainelItemValor">0</span>
+							<span class="perfilPainelItemValor"><?php echo $this->view->usuarios->getTotalFollowing()['total_following']?></span>
 						</div>
 
 						<div class="col">
 							<span class="perfilPainelItem">Seguidores</span><br />
-							<span class="perfilPainelItemValor">0</span>
+							<span class="perfilPainelItemValor"><?php echo $this->view->usuarios->getTotalFollowers()['total_followers']?></span>
 						</div>
 
 					</div>
@@ -72,20 +72,21 @@
 			<?php foreach($this->view->tweets as $array => $tweet ){?>
 			<div class="row tweet">
 				<div class="col">
-					<p><strong><?php echo $_SESSION['nome'];?></strong> <span class="text text-muted">- <?php echo $tweet['data_criacao'] ?></span></p>
+					<p><strong><?php echo $tweet['nome'];?></strong> <span class="text text-muted">- <?php echo $tweet['data_criacao'] ?></span></p>
 					<p><?php echo $tweet['tweet'] ?></p>
 
 					<br />
-					<form>
-						<div class="col d-flex justify-content-end">
+					<?php if($tweet['id_usuario'] == $_SESSION['id']){?>
+					<form method="GET" action="/deletarTweet">
+							<div class="col d-flex justify-content-end">
+							<input type="hidden" name="id" value="<?php echo $tweet['id'] ?>">
 							<button type="submit" class="btn btn-danger"><small>Remover</small></button>
 						</div>
 					</form>
+					<?php }?>
 				</div>
 			</div>
 			<?php }?>
-
-
 
 		</div>
 

@@ -14,11 +14,12 @@
 </nav>
 
 <div class="container mt-5">
+	<?php $i = $this->view->find;?>
 	<div class="row pt-2">
 		
 		<div class="col-md-3">
 
-			<div class="perfil">
+		<div class="perfil">
 				<div class="perfilTopo">
 
 				</div>
@@ -27,7 +28,7 @@
 					
 					<div class="row mt-2 mb-2">
 						<div class="col mb-2">
-							<span class="perfilPainelNome">Nome do Usuário</span>
+							<span class="perfilPainelNome"><?php echo $this->view->usuario->getUserInfor()['nome']?></span>
 						</div>
 					</div>
 
@@ -35,17 +36,17 @@
 
 						<div class="col">
 							<span class="perfilPainelItem">Tweets</span><br />
-							<span class="perfilPainelItemValor">0</span>
+							<span class="perfilPainelItemValor"><?php echo $this->view->usuario->getTotalTweets()['total_tweets']?></span>
 						</div>
 
 						<div class="col">
 							<span class="perfilPainelItem">Seguindo</span><br />
-							<span class="perfilPainelItemValor">0</span>
+							<span class="perfilPainelItemValor"><?php echo $this->view->usuario->getTotalFollowing()['total_following']?></span>
 						</div>
 
 						<div class="col">
 							<span class="perfilPainelItem">Seguidores</span><br />
-							<span class="perfilPainelItemValor">0</span>
+							<span class="perfilPainelItemValor"><?php echo $this->view->usuario->getTotalFollowers()['total_followers']?></span>
 						</div>
 
 					</div>
@@ -73,20 +74,22 @@
 					</div>
 				</div>
 			</div>
-			<?php if(isset($_GET['find']) && $_GET['find'] != '' ){foreach($this->view->pesquisa as $array => $pesquisa){?>
+			<?php if(isset($_GET['find']) && $_GET['find'] != '' ){foreach($this->view->usuarios as $array => $usuario){?>
 			<div class="row mb-2">
 				<div class="col">
 					<div class="card">
 						<div class="card-body">
 							<div class="row">
 								<div class="col-md-6">
-								<?php echo $pesquisa['nome']?>
+								<?php echo $usuario['nome']?>
 								</div>
-							
 								<div class="col-md-6 d-flex justify-content-end">
 									<div>
-										<a href="#" class="btn btn-success">Seguir</a>
-										<a href="#" class="btn btn-danger">Deixar de seguir</a>
+										<?php if($usuario['seguindo'] != 1){?>
+										<a href="/acao?action=follow&id=<?php echo $usuario['id'].'&find='. $_GET['find']?>" class="btn btn-success">Seguir</a>
+										<?php } else{?>
+										<a href="/acao?action=unfollow&id=<?php echo $usuario['id'].'&find='. $_GET['find']?>" class="btn btn-danger">Deixar de seguir</a>
+										<?php }?>
 									</div>
 								</div>
 							</div>
